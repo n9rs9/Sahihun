@@ -1,37 +1,47 @@
 [
-  {
-    "arabic": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
-    "french": "Les actions ne valent que par les intentions.",
-    "source": "Bukhârî & Muslim"
-  },
-  {
-    "arabic": "لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
-    "french": "Nul d'entre vous n'est véritablement croyant tant qu'il n'aime pas pour son frère ce qu'il aime pour lui-même.",
-    "source": "Bukhârî & Muslim"
-  },
-  {
-    "arabic": "الْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ",
-    "french": "Une bonne parole est une aumône.",
-    "source": "Bukhârî & Muslim"
-  },
-  {
-    "arabic": "يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا",
-    "french": "Facilitez les choses et ne les rendez pas difficiles ; annoncez de bonnes nouvelles et ne rebutez pas les gens.",
-    "source": "Bukhârî"
-  },
-  {
-    "arabic": "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ",
-    "french": "Quiconque emprunte un chemin en quête de savoir, Allah lui facilitera un chemin vers le Paradis.",
-    "source": "Muslim"
-  },
-  {
-    "arabic": "الدِّينُ النَّصِيحَةُ",
-    "french": "La religion, c'est le bon conseil.",
-    "source": "Muslim"
-  },
-  {
-    "arabic": "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
-    "french": "Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne.",
-    "source": "Bukhârî"
-  }
+  { "arabic": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ", "french": "Les actions ne valent que par les intentions.", "source": "Bukhârî & Muslim" },
+  { "arabic": "لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ", "french": "Nul d'entre vous n'est vraiment croyant tant qu'il n'aime pas pour son frère ce qu'il aime pour lui-même.", "source": "Bukhârî & Muslim" },
+  { "arabic": "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ", "french": "Le musulman est celui dont les gens n'ont à craindre ni la langue ni la main.", "source": "Bukhârî" },
+  { "arabic": "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ", "french": "Que celui qui croit en Allah et au Jour dernier dise du bien ou qu'il se taise.", "source": "Bukhârî & Muslim" },
+  { "arabic": "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", "french": "Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne.", "source": "Bukhârî" },
+  { "arabic": "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ", "french": "Quiconque emprunte un chemin en quête de savoir, Allah lui facilitera un chemin vers le Paradis.", "source": "Muslim" },
+  { "arabic": "الدُّنْيَا سِجْنُ الْمُؤْمِنِ وَجَنَّةُ الْكَافِرِ", "french": "Ce monde est la prison du croyant et le paradis de l'infidèle.", "source": "Muslim" },
+  { "arabic": "إِنَّ اللَّهَ لاَ يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ، وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ", "french": "Allah ne regarde pas vos apparences ni vos biens, mais Il regarde vos cœurs et vos actes.", "source": "Muslim" },
+  { "arabic": "يَسِّرُوا وَلاَ تُعَسِّرُوا، وَبَشِّرُوا وَلاَ تُنَفِّرُوا", "french": "Facilitez les choses et ne les rendez pas difficiles ; annoncez de bonnes nouvelles et ne rebutez pas les gens.", "source": "Bukhârî" },
+  { "arabic": "كُلُّ مَعْرُوفٍ صَدَقَةٌ", "french": "Chaque bonne action est une aumône.", "source": "Bukhârî" },
+  { "arabic": "الْبِرُّ حُسْنُ الْخُلُقِ", "french": "La piété réside dans le bon comportement.", "source": "Muslim" },
+  { "arabic": "الطُّهُورُ شَطْرُ الإِيمَانِ", "french": "La purification est la moitié de la foi.", "source": "Muslim" },
+  { "arabic": "إِنَّ اللَّهَ رَفِيقٌ يُحِبُّ الرِّفْقَ فِي الأَمْرِ كُلِّهِ", "french": "Allah est doux et Il aime la douceur en toute chose.", "source": "Bukhârî & Muslim" },
+  { "arabic": "أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ", "french": "Les œuvres les plus aimées d'Allah sont les plus régulières, même si elles sont peu nombreuses.", "source": "Bukhârî & Muslim" },
+  { "arabic": "الْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ", "french": "Une bonne parole est une aumône.", "source": "Bukhârî & Muslim" },
+  { "arabic": "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ", "french": "Ton sourire face à ton frère est pour toi une aumône.", "source": "At-Tirmidhî (Sahih)" },
+  { "arabic": "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ", "french": "Certes Allah est Beau et Il aime la beauté.", "source": "Muslim" },
+  { "arabic": "الصَّلَاةُ نُورٌ", "french": "La prière est une lumière.", "source": "Muslim" },
+  { "arabic": "الْحَيَاءُ لَا يَأْتِي إِلَّا بِخَيْرٍ", "french": "La pudeur n'apporte que du bien.", "source": "Bukhârî & Muslim" },
+  { "arabic": "مَنْ لَا يَرْحَمُ لَا يُرْحَمُ", "french": "Celui qui n'est pas miséricordieux ne recevra pas de miséricorde.", "source": "Bukhârî & Muslim" },
+  { "arabic": "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ", "french": "Crains Allah où que tu sois.", "source": "At-Tirmidhî" },
+  { "arabic": "سِبَابُ الْمُسْلِمِ فُسُوقٌ وَقِتَالُهُ كُفْرٌ", "french": "Insulter un musulman est un acte de perversité, et le combattre est un acte de mécréance.", "source": "Bukhârî & Muslim" },
+  { "arabic": "الْبَيِّنَةُ عَلَى الْمُدَّعِي، وَالْيَمِينُ عَلَى مَنْ أَنْكَرَ", "french": "La preuve incombe au demandeur, et le serment à celui qui nie.", "source": "Al-Bayhaqî / Muslim" },
+  { "arabic": "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ", "french": "Quiconque jeûne le mois de Ramadan avec foi et espoir de récompense, ses péchés passés seront pardonnés.", "source": "Bukhârî & Muslim" },
+  { "arabic": "لَا يَدْخُلُ الْجَنَّةَ نَمَّامٌ", "french": "Celui qui sème la discorde (par ses paroles) n'entrera pas au Paradis.", "source": "Bukhârî & Muslim" },
+  { "arabic": "الظُّلْمُ ظُلُمَاتٌ يَوْمَ الْقِيَامَةِ", "french": "L'injustice se transformera en ténèbres le Jour de la Résurrection.", "source": "Bukhârî & Muslim" },
+  { "arabic": "آيَةُ الْمُنَافِقِ ثَلَاثٌ: إِذَا حَدَّثَ كَذَبَ، وَإِذَا وَعَدَ أَخْلَفَ، وَإِذَا اؤْتُمِنَ خَانَ", "french": "Les signes de l'hypocrite sont au nombre de trois : quand il parle, il ment ; quand il promet, il ne tient pas sa promesse ; et quand on lui confie quelque chose, il trahit.", "source": "Bukhârî & Muslim" },
+  { "arabic": "مَنْ بَنَى مَسْجِدًا لِلَّهِ بَنَى اللَّهُ لَهُ بَيْتًا فِي الْجَنَّةِ", "french": "Quiconque construit une mosquée pour Allah, Allah lui construira une demeure au Paradis.", "source": "Bukhârî & Muslim" },
+  { "arabic": "أَنَا وَكَافِلُ الْيَتِيمِ فِي الْجَنَّةِ هَكَذَا", "french": "Moi et celui qui prend en charge un orphelin serons au Paradis comme ces deux-là (en montrant l'index et le majeur).", "source": "Bukhârî" },
+  { "arabic": "مَنْ غَشَّنَا فَلَيْسَ مِنَّا", "french": "Celui qui nous trompe n'est pas des nôtres.", "source": "Muslim" },
+  { "arabic": "كُنْ فِي الدُّنْيَا كَأَنَّكَ غَرِيبٌ أَوْ عَابِرُ سَبِيلٍ", "french": "Sois dans ce monde comme un étranger ou un voyageur de passage.", "source": "Bukhârî" },
+  { "arabic": "لَا غِلَّ وَلَا حَسَدَ", "french": "Pas de haine ni d'envie.", "source": "Muslim" },
+  { "arabic": "الْعَيْنُ حَقٌّ", "french": "Le mauvais œil est une vérité.", "source": "Bukhârî & Muslim" },
+  { "arabic": "أَعْطُوا الأَجِيرَ أَجْرَهُ قَبْلَ أَنْ يَجِفَّ عَرَقُهُ", "french": "Donnez à l'employé son salaire avant que sa sueur ne sèche.", "source": "Ibn Mâjah" },
+  { "arabic": "الدُّعَاءُ هُوَ الْعِبَادَةُ", "french": "L'invocation est l'essence même de l'adoration.", "source": "At-Tirmidhî" },
+  { "arabic": "الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ", "french": "Ceux qui font miséricorde, le Tout-Miséricordieux leur fera miséricorde.", "source": "Abû Dâwûd" },
+  { "arabic": "الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا", "french": "Le croyant est pour le croyant comme un édifice dont les briques se soutiennent les unes les autres.", "source": "Bukhârî & Muslim" },
+  { "arabic": "لَا تَغْضَبْ", "french": "Ne te mets pas en colère.", "source": "Bukhârî" },
+  { "arabic": "بَلِّغُوا عَنِّي وَلَوْ آيَةً", "french": "Transmettez de moi ne serait-ce qu'un verset.", "source": "Bukhârî" },
+  { "arabic": "إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ", "french": "Certes, la vérité mène à la piété.", "source": "Bukhârî & Muslim" },
+  { "arabic": "الدَّالُ عَلَى الْخَيْرِ كَفَاعِلِهِ", "french": "Celui qui montre le chemin d'une bonne action a la même récompense que celui qui l'accomplit.", "source": "Muslim" },
+  { "arabic": "مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللَّهُ عَلَيْهِ بِهَا عَشْرًا", "french": "Quiconque prie sur moi une fois, Allah priera sur lui dix fois en retour.", "source": "Muslim" },
+  { "arabic": "أَقْرَبُ مَا يَكُونُ الْعَبْدُ مِنْ رَبِّهِ وَهُوَ سَاجِدٌ", "french": "Le moment où le serviteur est le plus proche de son Seigneur est quand il est en prosternation.", "source": "Muslim" },
+  { "arabic": "لَا حَسَدَ إِلَّا فِي اثْنَتَيْنِ", "french": "L'envie n'est permise que dans deux cas (le don de ses biens et le don de son savoir).", "source": "Bukhârî & Muslim" },
+  { "arabic": "مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ", "french": "Celui à qui Allah veut du bien, Il lui accorde la compréhension de la religion.", "source": "Bukhârî & Muslim" }
 ]
