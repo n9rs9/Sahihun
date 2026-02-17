@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sahihun</title>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playpen+Sans:wght@400&family=Lato:wght@300;400&family=Montserrat:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playpen+Sans:wght@400&family=Lato:wght@300;400&family=Montserrat:wght@600&family=Modak&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -12,13 +12,17 @@
       --bg: #FFC0B3;      
       --text-main: #522117; 
       --dark-panel: #111111;
+      --panel-text: #FFFFFF;
       --transition-speed: 0.4s;
       --progress: 10%;
     }
 
+    /* Inversion des couleurs en mode nuit pour le compteur */
     body.dark-mode {
       --bg: #111111;
       --text-main: var(--current-pastel); 
+      --dark-panel: var(--current-pastel);
+      --panel-text: #111111;
     }
 
     body {
@@ -69,15 +73,31 @@
     }
     body.dark-mode .theme-switch .dot { transform: translateX(35px); }
 
+    /* Compteur Hadith avec Police Modak et Flottement */
     .counter-badge {
       background-color: var(--dark-panel);
-      color: #FFFFFF;
-      padding: 12px 24px;
+      color: var(--panel-text);
+      padding: 8px 20px;
       border-radius: 14px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-family: 'Modak', cursive;
+      font-size: 1.3rem;
+      font-weight: 400;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: background-color 0.4s, color 0.4s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Effet de flottement sur le numéro */
+    #counter-number {
+      display: inline-block;
+      animation: floatNum 3s ease-in-out infinite;
+    }
+
+    @keyframes floatNum {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     /* BARRE DE PROGRESSION STYLE IMAGE */
@@ -92,7 +112,7 @@
     .progress-container {
       width: 100%;
       height: 38px;
-      background: #2c2f33; /* Fond gris sombre comme l'image */
+      background: #2c2f33; 
       border-radius: 50px;
       padding: 5px;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
@@ -105,16 +125,14 @@
     .progress-fill {
       height: 100%;
       width: var(--progress);
-      background-color: var(--text-main); /* Couleur du texte */
+      background-color: var(--text-main); 
       border-radius: 50px;
       transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
       position: relative;
-      /* Dégradé pour l'effet de dôme/volume */
       background-image: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 100%);
       box-shadow: 2px 0 5px rgba(0,0,0,0.2);
     }
 
-    /* Le reflet blanc brillant sur la barre */
     .progress-fill::after {
       content: '';
       position: absolute;
@@ -128,20 +146,11 @@
       filter: blur(0.5px);
     }
 
-    .progress-container.complete {
-      animation: completeJump 0.5s ease-out;
-    }
-
-    @keyframes completeJump {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Zone de texte */
+    /* Zone de texte - Remontée légèrement */
     #hadith-container {
       max-width: 950px;
       z-index: 2;
-      margin-top: 200px;
+      margin-top: 130px; /* Réduit pour remonter les textes sans bouger la barre */
     }
 
     .arabic { 
@@ -150,22 +159,22 @@
       color: var(--text-main); 
       line-height: 1.7; 
       direction: rtl; 
-      margin-bottom: 50px;
+      margin-bottom: 30px; /* Réduit */
       transition: color 0.4s, opacity 0.3s;
     }
 
     .french { 
       font-family: 'Playpen Sans', cursive; 
-      font-size: clamp(1.4rem, 3.5vw, 1.9rem); 
+      font-size: clamp(1.3rem, 3vw, 1.8rem); 
       color: var(--text-main); 
-      line-height: 1.6; 
-      margin-bottom: 50px;
+      line-height: 1.5; 
+      margin-bottom: 30px; /* Réduit */
       transition: color 0.4s, opacity 0.3s;
     }
 
     .source { 
       font-family: 'Montserrat', sans-serif;
-      font-size: 1rem; 
+      font-size: 0.9rem; 
       color: var(--text-main);
       opacity: 0.8;
     }
@@ -196,7 +205,7 @@
     <div class="theme-switch" id="theme-toggle" title="Mode Jour/Nuit">
       <div class="dot"></div>
     </div>
-    <div id="counter" class="counter-badge">Hadith #1</div>
+    <div class="counter-badge">Hadith <span id="counter-number">#1</span></div>
   </div>
 
   <div class="progress-fixed-wrapper">
@@ -245,14 +254,7 @@ async function init() {
 function updateProgress() {
     let currentStep = ((clickCount - 1) % 10) + 1;
     let percentage = currentStep * 10;
-    
     document.documentElement.style.setProperty('--progress', `${percentage}%`);
-    
-    const container = document.getElementById('progress-container');
-    if (percentage === 100) {
-        container.classList.add('complete');
-        setTimeout(() => container.classList.remove('complete'), 600);
-    }
 }
 
 function render() {
@@ -284,7 +286,7 @@ function render() {
     document.getElementById('arabic').textContent = h.arabic;
     document.getElementById('french').textContent = `« ${h.french} »`;
     document.getElementById('source').innerHTML = `Source : <strong>${h.source}</strong>`;
-    document.getElementById('counter').textContent = `Hadith #${clickCount}`;
+    document.getElementById('counter-number').textContent = `#${clickCount}`;
     elements.forEach(id => document.getElementById(id).style.opacity = 1);
     updateProgress();
   }, 200);
