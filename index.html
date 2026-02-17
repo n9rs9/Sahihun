@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>L'Essence du Hadith</title>
+  <title>Sahihun</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playpen+Sans:wght@400&family=Lato:wght@300;400&family=Montserrat:wght@600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,7 +13,8 @@
       --text-main: #522117; 
       --dark-panel: #111111;
       --transition-speed: 0.4s;
-      --progress: 0%;
+      --progress: 10%;
+      --flashy-color: #FF007A; /* Couleur vive par défaut */
     }
 
     body.dark-mode {
@@ -31,12 +32,12 @@
       background-color: var(--bg);
       overflow: hidden;
       cursor: pointer;
-      padding: 40px;
+      padding: 20px;
       text-align: center;
       transition: background-color var(--transition-speed) ease;
     }
 
-    /* Header Agrandi */
+    /* Header */
     .top-bar {
       position: fixed;
       top: 30px;
@@ -49,12 +50,11 @@
 
     .theme-switch {
       position: relative;
-      width: 70px; /* Agrandi */
-      height: 36px; /* Agrandi */
+      width: 70px;
+      height: 36px;
       background: rgba(0,0,0,0.1);
       border-radius: 50px;
       cursor: pointer;
-      transition: 0.3s;
       border: 2px solid var(--text-main);
     }
     .theme-switch .dot {
@@ -72,57 +72,70 @@
     .counter-badge {
       background-color: var(--dark-panel);
       color: #FFFFFF;
-      padding: 10px 22px; /* Agrandi */
+      padding: 10px 22px;
       border-radius: 12px;
       font-family: 'Montserrat', sans-serif;
-      font-size: 1rem; /* Agrandi */
+      font-size: 1rem;
       font-weight: 700;
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
     }
 
-    /* Barre de Progression Liquid Glass */
+    /* CONTENEUR FIXE POUR LA BARRE (Ancrage) */
+    .progress-wrapper {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 50px; /* Espace avant le texte */
+    }
+
+    /* Barre de Progression Épaisse "Liquid Glass" */
     .progress-container {
       width: 100%;
-      max-width: 400px;
-      height: 12px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
-      margin: 0 auto 30px auto;
+      height: 40px; /* ÉPAISSEUR augmentée */
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50px;
       overflow: hidden;
       position: relative;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 
+        inset 0 4px 10px rgba(0,0,0,0.05),
+        0 10px 20px rgba(0,0,0,0.1);
     }
 
     .progress-fill {
       height: 100%;
       width: var(--progress);
-      background: linear-gradient(to left, #FFFFFF, var(--text-main));
-      border-radius: 20px;
-      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      /* Blanc à gauche, Couleur Flashy à droite */
+      background: linear-gradient(to right, #FFFFFF 0%, var(--flashy-color) 100%);
+      border-radius: 50px;
+      transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
+      box-shadow: 0 0 15px var(--flashy-color);
     }
 
-    /* Animation quand fini */
+    /* Brillance sur la barre (effet verre) */
+    .progress-fill::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 50%;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50px 50px 0 0;
+    }
+
     .progress-container.complete {
-      animation: completePulse 0.6s ease-out;
-      border-color: #FFF;
-      box-shadow: 0 0 20px rgba(255,255,255,0.6);
+      animation: finishPulse 0.8s infinite alternate;
     }
 
-    @keyframes completePulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    @keyframes finishPulse {
+      from { transform: scale(1); box-shadow: 0 0 20px var(--flashy-color); }
+      to { transform: scale(1.02); box-shadow: 0 0 40px var(--flashy-color); }
     }
 
     #hadith-container {
       max-width: 950px;
       z-index: 2;
-      transition: opacity 0.2s ease;
+      margin-top: 10px; /* Abaisse légèrement le texte */
     }
 
     .arabic { 
@@ -131,29 +144,31 @@
       color: var(--text-main); 
       line-height: 1.6; 
       direction: rtl; 
-      margin-bottom: 40px;
+      margin-bottom: 45px;
+      transition: opacity 0.3s;
     }
 
     .french { 
       font-family: 'Playpen Sans', cursive; 
-      font-size: clamp(1.4rem, 3.5vw, 2rem); 
+      font-size: clamp(1.4rem, 3.5vw, 1.9rem); 
       color: var(--text-main); 
       line-height: 1.6; 
-      margin-bottom: 40px;
+      margin-bottom: 45px;
+      transition: opacity 0.3s;
     }
 
     .source { 
       font-family: 'Montserrat', sans-serif;
       font-size: 0.95rem; 
-      color: var(--text-main); 
+      color: var(--text-main);
+      transition: opacity 0.3s;
     }
 
     .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.8rem; color: var(--text-main); }
 
     .diamond { 
       position: fixed; 
-      width: 12px; 
-      height: 12px; 
+      width: 12px; height: 12px; 
       background: var(--text-main); 
       border-radius: 3px; 
       opacity: 0; 
@@ -178,11 +193,13 @@
     <div id="counter" class="counter-badge">Hadith #1</div>
   </div>
 
-  <div id="hadith-container">
+  <div class="progress-wrapper">
     <div class="progress-container" id="progress-container">
         <div class="progress-fill" id="progress-bar"></div>
     </div>
-    
+  </div>
+
+  <div id="hadith-container">
     <div id="arabic" class="arabic"></div>
     <div id="french" class="french"></div>
     <div id="source" class="source"></div>
@@ -190,20 +207,17 @@
 
 <script>
 const palettes = [
-  { bg: "#FFC0B3", text: "#522117" },
-  { bg: "#E0FFE0", text: "#2F3B16" },
-  { bg: "#CFF1FF", text: "#0C232E" },
-  { bg: "#FFF2BF", text: "#3D370B" },
-  { bg: "#FFCCF2", text: "#4A0E34" },
-  { bg: "#E2C7FF", text: "#200936" },
-  { bg: "#FAD1BB", text: "#A04000" }
+  { bg: "#FFC0B3", text: "#522117", flashy: "#FF1493" },
+  { bg: "#E0FFE0", text: "#2F3B16", flashy: "#32CD32" },
+  { bg: "#CFF1FF", text: "#0C232E", flashy: "#00BFFF" },
+  { bg: "#FFF2BF", text: "#3D370B", flashy: "#FFD700" },
+  { bg: "#FFCCF2", text: "#4A0E34", flashy: "#FF00FF" },
+  { bg: "#E2C7FF", text: "#200936", flashy: "#9400D3" }
 ];
 
 let hadiths = [];
 let currentIndex = 0;
 let clickCount = 1;
-let progress = 10; // Démarre à 10% pour le 1er hadith
-let currentPastelColor = palettes[0].bg;
 
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
@@ -223,17 +237,16 @@ async function init() {
 }
 
 function updateProgress() {
-    // La progression boucle tous les 10 hadiths
     let currentStep = ((clickCount - 1) % 10) + 1;
     let percentage = currentStep * 10;
     
-    const container = document.getElementById('progress-container');
     document.documentElement.style.setProperty('--progress', `${percentage}%`);
     
+    const container = document.getElementById('progress-container');
     if (percentage === 100) {
         container.classList.add('complete');
-        // On retire la classe après l'animation pour pouvoir la refaire au prochain cycle
-        setTimeout(() => container.classList.remove('complete'), 1000);
+    } else if (percentage === 10) {
+        container.classList.remove('complete');
     }
 }
 
@@ -242,12 +255,13 @@ function render() {
   const h = hadiths[currentIndex];
   
   const cp = palettes[Math.floor(Math.random() * palettes.length)];
-  currentPastelColor = cp.bg;
 
   document.documentElement.style.setProperty('--bg', cp.bg);
   document.documentElement.style.setProperty('--text-main', cp.text);
   document.documentElement.style.setProperty('--current-pastel', cp.bg);
+  document.documentElement.style.setProperty('--flashy-color', cp.flashy);
 
+  // Particules
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       const d = document.createElement('div');
@@ -260,24 +274,21 @@ function render() {
     }, i * 100);
   }
 
-  const container = document.getElementById('hadith-container');
-  const textElements = [document.getElementById('arabic'), document.getElementById('french'), document.getElementById('source')];
-  
-  textElements.forEach(el => el.style.opacity = 0);
+  const elements = ['arabic', 'french', 'source'];
+  elements.forEach(id => document.getElementById(id).style.opacity = 0);
   
   setTimeout(() => {
     document.getElementById('arabic').textContent = h.arabic;
     document.getElementById('french').textContent = `« ${h.french} »`;
     document.getElementById('source').innerHTML = `Source : <strong>${h.source}</strong>`;
     document.getElementById('counter').textContent = `Hadith #${clickCount}`;
-    textElements.forEach(el => el.style.opacity = 1);
+    elements.forEach(id => document.getElementById(id).style.opacity = 1);
     updateProgress();
-  }, 150);
+  }, 200);
 }
 
 document.body.addEventListener('click', (e) => {
   if (e.target.closest('.top-bar')) return;
-
   clickCount++;
   currentIndex = (currentIndex + 1) % hadiths.length;
   if (currentIndex === 0) hadiths.sort(() => Math.random() - 0.5);
