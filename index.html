@@ -15,6 +15,9 @@
       --panel-text: #FFFFFF;
       --transition-speed: 0.4s;
       --progress: 10%;
+      /* Couleurs pour l'effet neumorphique */
+      --neu-shadow-dark: rgba(0, 0, 0, 0.1);
+      --neu-shadow-light: rgba(255, 255, 255, 0.5);
     }
 
     body.dark-mode {
@@ -22,6 +25,8 @@
       --text-main: var(--current-pastel); 
       --dark-panel: var(--current-pastel);
       --panel-text: #111111;
+      --neu-shadow-dark: rgba(0, 0, 0, 0.6);
+      --neu-shadow-light: rgba(255, 255, 255, 0.05);
     }
 
     body {
@@ -39,14 +44,15 @@
       transition: background-color var(--transition-speed) ease;
     }
 
-    /* Logo Image Palestine */
+    /* Logo Image Palestine avec Shadow */
     .logo-img {
       position: fixed;
       top: 25px;
       left: 25px;
-      width: 50px;
+      width: 55px;
       height: auto;
       z-index: 100;
+      filter: drop-shadow(0 10px 8px rgba(0,0,0,0.2));
     }
 
     /* Header */
@@ -56,31 +62,41 @@
       right: 30px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 20px;
       z-index: 100;
     }
 
+    /* Interrupteur Neumorphique (Style Image Ref) */
     .theme-switch {
       position: relative;
-      width: 60px;
-      height: 32px;
-      background: rgba(0,0,0,0.05);
+      width: 70px;
+      height: 35px;
+      background: var(--bg);
       border-radius: 50px;
       cursor: pointer;
-      border: 2px solid var(--text-main);
-      transition: border-color 0.3s;
+      /* Ombre interne pour l'effet creusé */
+      box-shadow: inset 3px 3px 6px var(--neu-shadow-dark), 
+                  inset -3px -3px 6px var(--neu-shadow-light);
+      transition: background 0.3s;
     }
+    
     .theme-switch .dot {
       position: absolute;
-      top: 3px;
+      top: 4px;
       left: 4px;
-      width: 22px;
-      height: 22px;
-      background: var(--text-main);
+      width: 27px;
+      height: 27px;
+      background: var(--bg);
       border-radius: 50%;
+      /* Ombre externe pour l'effet relief */
+      box-shadow: 2px 2px 5px var(--neu-shadow-dark), 
+                  -1px -1px 4px var(--neu-shadow-light);
       transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
-    body.dark-mode .theme-switch .dot { transform: translateX(28px); }
+    
+    body.dark-mode .theme-switch .dot { 
+      transform: translateX(35px); 
+    }
 
     .counter-badge {
       background-color: var(--dark-panel);
@@ -171,6 +187,21 @@
       opacity: 0.7;
     }
 
+    /* RESPONSIVE MOBILE */
+    @media (max-width: 600px) {
+      .logo-img { width: 45px; top: 15px; left: 15px; }
+      .top-bar { top: 15px; right: 15px; gap: 10px; }
+      .counter-badge { padding: 6px 12px; font-size: 0.75rem; }
+      .theme-switch { width: 60px; height: 30px; }
+      .theme-switch .dot { width: 22px; height: 22px; }
+      body.dark-mode .theme-switch .dot { transform: translateX(30px); }
+      
+      .progress-fixed-wrapper { width: 75%; top: 100px; } 
+      #hadith-container { 
+        margin-top: 20px; /* Remonté significativement pour mobile */
+      }
+    }
+
     .diamond { 
       position: fixed; 
       width: 10px; height: 10px; 
@@ -184,20 +215,6 @@
       0%   { opacity: 0; transform: translateY(0) rotate(45deg) scale(0.5); }
       20%  { opacity: 0.6; }
       100% { opacity: 0; transform: translateY(-100vh) rotate(405deg) scale(1.2); }
-    }
-
-    /* RESPONSIVE MOBILE */
-    @media (max-width: 600px) {
-      .logo-img { width: 40px; top: 20px; left: 20px; }
-      .top-bar { top: 20px; right: 20px; gap: 10px; }
-      .counter-badge { padding: 6px 12px; font-size: 0.75rem; }
-      .theme-switch { width: 50px; height: 28px; }
-      .theme-switch .dot { width: 18px; height: 18px; }
-      body.dark-mode .theme-switch .dot { transform: translateX(22px); }
-      
-      .progress-fixed-wrapper { width: 75%; top: 110px; } /* Barre plus courte sur mobile */
-      .progress-container { height: 28px; }
-      #hadith-container { margin-top: 80px; }
     }
   </style>
 </head>
