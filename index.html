@@ -13,12 +13,11 @@
       --text-main: #522117; 
       --dark-panel: #111111;
       --transition-speed: 0.4s;
+      --progress: 0%;
     }
 
-    /* Mode Sombre */
     body.dark-mode {
       --bg: #111111;
-      /* On inverse : le texte prend la couleur pastel */
       --text-main: var(--current-pastel); 
     }
 
@@ -37,55 +36,93 @@
       transition: background-color var(--transition-speed) ease;
     }
 
-    /* Header : Switch + Counter */
+    /* Header Agrandi */
     .top-bar {
       position: fixed;
-      top: 25px;
-      right: 30px;
+      top: 30px;
+      right: 40px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 20px;
       z-index: 10;
     }
 
-    /* Interrupteur Jour/Nuit */
     .theme-switch {
       position: relative;
-      width: 50px;
-      height: 26px;
+      width: 70px; /* Agrandi */
+      height: 36px; /* Agrandi */
       background: rgba(0,0,0,0.1);
       border-radius: 50px;
       cursor: pointer;
       transition: 0.3s;
-      border: 1px solid var(--text-main);
+      border: 2px solid var(--text-main);
     }
     .theme-switch .dot {
       position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 18px;
-      height: 18px;
+      top: 4px;
+      left: 5px;
+      width: 24px;
+      height: 24px;
       background: var(--text-main);
       border-radius: 50%;
-      transition: 0.3s;
+      transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
-    body.dark-mode .theme-switch .dot { transform: translateX(24px); }
+    body.dark-mode .theme-switch .dot { transform: translateX(32px); }
 
     .counter-badge {
       background-color: var(--dark-panel);
       color: #FFFFFF;
-      padding: 6px 15px;
-      border-radius: 8px;
+      padding: 10px 22px; /* Agrandi */
+      border-radius: 12px;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      font-size: 1rem; /* Agrandi */
+      font-weight: 700;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    /* Barre de Progression Liquid Glass */
+    .progress-container {
+      width: 100%;
+      max-width: 400px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      margin: 0 auto 30px auto;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: var(--progress);
+      background: linear-gradient(to left, #FFFFFF, var(--text-main));
+      border-radius: 20px;
+      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+    }
+
+    /* Animation quand fini */
+    .progress-container.complete {
+      animation: completePulse 0.6s ease-out;
+      border-color: #FFF;
+      box-shadow: 0 0 20px rgba(255,255,255,0.6);
+    }
+
+    @keyframes completePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
     #hadith-container {
       max-width: 950px;
       z-index: 2;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      transition: opacity 0.2s ease;
     }
 
     .arabic { 
@@ -95,7 +132,6 @@
       line-height: 1.6; 
       direction: rtl; 
       margin-bottom: 40px;
-      transition: color var(--transition-speed);
     }
 
     .french { 
@@ -104,26 +140,22 @@
       color: var(--text-main); 
       line-height: 1.6; 
       margin-bottom: 40px;
-      transition: color var(--transition-speed);
     }
 
     .source { 
       font-family: 'Montserrat', sans-serif;
       font-size: 0.95rem; 
       color: var(--text-main); 
-      text-transform: none; /* Enlève les majuscules automatiques */
-      transition: color var(--transition-speed);
     }
 
-    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--text-main); }
+    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.8rem; color: var(--text-main); }
 
-    /* Particules Losanges */
     .diamond { 
       position: fixed; 
       width: 12px; 
       height: 12px; 
       background: var(--text-main); 
-      border-radius: 3px; /* Coins arrondis sur le losange */
+      border-radius: 3px; 
       opacity: 0; 
       pointer-events: none; 
       animation: floatDiamond 3.5s ease-out forwards; 
@@ -147,6 +179,10 @@
   </div>
 
   <div id="hadith-container">
+    <div class="progress-container" id="progress-container">
+        <div class="progress-fill" id="progress-bar"></div>
+    </div>
+    
     <div id="arabic" class="arabic"></div>
     <div id="french" class="french"></div>
     <div id="source" class="source"></div>
@@ -166,9 +202,9 @@ const palettes = [
 let hadiths = [];
 let currentIndex = 0;
 let clickCount = 1;
+let progress = 10; // Démarre à 10% pour le 1er hadith
 let currentPastelColor = palettes[0].bg;
 
-// Toggle Dark Mode
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
@@ -179,26 +215,39 @@ async function init() {
     const res = await fetch('./hadiths.json');
     hadiths = await res.json();
     hadiths.sort(() => Math.random() - 0.5);
+    updateProgress();
     render();
   } catch (err) {
     document.getElementById('french').innerText = "Erreur de chargement du fichier JSON.";
   }
 }
 
+function updateProgress() {
+    // La progression boucle tous les 10 hadiths
+    let currentStep = ((clickCount - 1) % 10) + 1;
+    let percentage = currentStep * 10;
+    
+    const container = document.getElementById('progress-container');
+    document.documentElement.style.setProperty('--progress', `${percentage}%`);
+    
+    if (percentage === 100) {
+        container.classList.add('complete');
+        // On retire la classe après l'animation pour pouvoir la refaire au prochain cycle
+        setTimeout(() => container.classList.remove('complete'), 1000);
+    }
+}
+
 function render() {
   if (!hadiths.length) return;
   const h = hadiths[currentIndex];
   
-  // Couleur aléatoire
   const cp = palettes[Math.floor(Math.random() * palettes.length)];
   currentPastelColor = cp.bg;
 
-  // Appliquer les variables
   document.documentElement.style.setProperty('--bg', cp.bg);
   document.documentElement.style.setProperty('--text-main', cp.text);
   document.documentElement.style.setProperty('--current-pastel', cp.bg);
 
-  // Générer particules avec délais aléatoires
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       const d = document.createElement('div');
@@ -208,24 +257,25 @@ function render() {
       d.style.background = (document.body.classList.contains('dark-mode')) ? cp.bg : cp.text;
       document.body.appendChild(d);
       d.addEventListener('animationend', () => d.remove());
-    }, i * 100); // Décalage de 100ms entre chaque particule
+    }, i * 100);
   }
 
   const container = document.getElementById('hadith-container');
-  container.style.opacity = 0;
+  const textElements = [document.getElementById('arabic'), document.getElementById('french'), document.getElementById('source')];
+  
+  textElements.forEach(el => el.style.opacity = 0);
   
   setTimeout(() => {
     document.getElementById('arabic').textContent = h.arabic;
     document.getElementById('french').textContent = `« ${h.french} »`;
-    // Mise en forme de la source : "Source :" et nom en gras
     document.getElementById('source').innerHTML = `Source : <strong>${h.source}</strong>`;
     document.getElementById('counter').textContent = `Hadith #${clickCount}`;
-    container.style.opacity = 1;
+    textElements.forEach(el => el.style.opacity = 1);
+    updateProgress();
   }, 150);
 }
 
 document.body.addEventListener('click', (e) => {
-  // Empêche le clic sur l'interrupteur de déclencher un nouveau hadith
   if (e.target.closest('.top-bar')) return;
 
   clickCount++;
