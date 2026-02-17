@@ -9,11 +9,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #fdf6f0;
-      --accent: #e8a598;
-      --text-dark: #3d2b1f;
-      --text-mid: #7a5c4f;
-      --text-light: #b89a8e;
+      /* Couleurs par défaut au chargement */
+      --bg: #FFA896;      
+      --text-main: #FF5A33; 
     }
 
     body {
@@ -27,94 +25,76 @@
       overflow: hidden;
       cursor: pointer;
       padding: 40px;
-      transition: background-color 0.8s ease;
       text-align: center;
+      transition: background-color 0.8s ease; /* Transition douce pour le changement de fond */
     }
 
-    /* Floating petals (Quantité réduite de 50%) */
-    .petal {
-      position: fixed;
-      border-radius: 50% 10% 50% 10%;
-      opacity: 0;
-      pointer-events: none;
-      animation: floatPetal 5s ease-in forwards;
-    }
-
-    @keyframes floatPetal {
-      0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.5); }
-      15%  { opacity: 0.5; }
-      100% { opacity: 0; transform: translateY(-110vh) rotate(360deg) scale(1.1); }
-    }
-
-    /* Content Area - NO CARD */
     #hadith-container {
       max-width: 850px;
       z-index: 2;
       transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
-    .ornament {
-      font-size: 1.8rem;
-      color: var(--accent);
-      margin-bottom: 25px;
-      display: block;
+    .ornament { 
+      font-size: 1.8rem; 
+      color: var(--text-main); 
+      margin-bottom: 25px; 
+      display: block; 
+      transition: color 0.8s ease;
     }
 
-    .arabic {
-      font-family: 'Amiri', serif;
-      font-size: clamp(1.6rem, 4.5vw, 2.6rem);
-      color: var(--text-dark);
-      line-height: 1.8;
-      direction: rtl;
+    .arabic { 
+      font-family: 'Amiri', serif; 
+      font-size: clamp(1.6rem, 4.5vw, 2.6rem); 
+      color: var(--text-main); 
+      line-height: 1.8; 
+      direction: rtl; 
       margin-bottom: 35px;
+      transition: color 0.8s ease;
     }
 
-    .divider {
-      width: 100px;
-      height: 1px;
-      margin: 0 auto 35px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    .divider { 
+      width: 100px; 
+      height: 2px; 
+      margin: 0 auto 35px; 
+      background: var(--text-main); 
+      opacity: 0.5;
+      transition: background 0.8s ease;
     }
 
-    .french {
-      font-family: 'Playpen Sans', cursive;
-      font-size: clamp(1.1rem, 2.8vw, 1.45rem);
-      color: var(--text-mid);
-      line-height: 1.7;
+    .french { 
+      font-family: 'Playpen Sans', cursive; 
+      font-size: clamp(1.1rem, 2.8vw, 1.45rem); 
+      color: var(--text-main); 
+      line-height: 1.7; 
       margin-bottom: 30px;
+      transition: color 0.8s ease;
     }
 
-    .source {
-      font-size: 0.8rem;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
+    .source { 
+      font-size: 0.8rem; 
+      color: var(--text-main); 
+      text-transform: uppercase; 
+      letter-spacing: 0.15em; 
+      opacity: 0.8;
+      transition: color 0.8s ease;
     }
 
-    .source strong { color: var(--accent); }
+    .counter { position: fixed; top: 25px; right: 30px; font-size: 0.7rem; color: var(--text-main); transition: color 0.8s ease; }
+    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--text-main); transition: color 0.8s ease; }
 
-    /* UI Elements */
-    .counter { position: fixed; top: 25px; right: 30px; font-size: 0.7rem; color: var(--text-mid); }
-    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--text-light); }
-    
-    .ripple {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: scale(0);
-      animation: rippleAnim 0.7s ease-out forwards;
-      z-index: 1;
-    }
-
-    @keyframes rippleAnim {
-      to { transform: scale(35); opacity: 0; }
+    .petal { position: fixed; border-radius: 50% 10% 50% 10%; opacity: 0; pointer-events: none; animation: floatPetal 5s ease-in forwards; }
+    @keyframes floatPetal {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.5); }
+      15%  { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(-110vh) rotate(360deg) scale(1.1); }
     }
   </style>
 </head>
 <body>
 
   <div class="logo">الحديث</div>
-  <div id="counter" class="counter">Chargement...</div>
+  <div id="counter" class="counter">...</div>
 
   <div id="hadith-container">
     <span class="ornament">✦</span>
@@ -125,86 +105,71 @@
   </div>
 
 <script>
+// ICI TU AJOUTES TES DUOS DE COULEURS À LA MAIN
+// bg = Fond, text = Écritures
+const palettes = [
+  { bg: "#FFA896", text: "#FF5A33" }, // Ton duo original
+  { bg: "#D4E6B5", text: "#4A5D23" }, // Vert pastel / Vert forêt
+  { bg: "#B5D8E6", text: "#234A5D" }, // Bleu ciel / Bleu nuit
+  { bg: "#E6B5D8", text: "#5D234A" }, // Rose pastel / Prune
+  { bg: "#F3E5AB", text: "#8B4513" }, // Vanille / Terre d'ombre
+  { bg: "#CDB5E6", text: "#4B235D" }  // Lavande / Violet profond
+];
+
 let hadiths = [];
 let currentIndex = 0;
 let clickCount = 1;
 
-const palettes = [
-  { bg: '#fdf6f0', accent: '#e8a598', textDark: '#3d2b1f', textMid: '#7a5c4f', ripple: 'rgba(232,165,152,0.15)' },
-  { bg: '#f0f6f4', accent: '#7bbdaa', textDark: '#1f3d35', textMid: '#4f7a6e', ripple: 'rgba(123,189,170,0.15)' },
-  { bg: '#f3f0f8', accent: '#a998e0', textDark: '#2b1f3d', textMid: '#5c4f7a', ripple: 'rgba(169,152,224,0.15)' },
-  { bg: '#f7f7f7', accent: '#90a4ae', textDark: '#263238', textMid: '#546e7a', ripple: 'rgba(144,164,174,0.15)' }
-];
-
-// Charger le JSON
-async function loadHadiths() {
+async function init() {
   try {
-    const response = await fetch('hadiths.json');
-    hadiths = await response.json();
-    hadiths.sort(() => Math.random() - 0.5); // Mélanger
-    displayHadith(window.innerWidth / 2, window.innerHeight / 2);
-  } catch (e) {
-    document.getElementById('french').textContent = "Erreur de chargement des hadiths. Vérifiez le fichier JSON.";
+    const res = await fetch('./hadiths.json');
+    hadiths = await res.json();
+    hadiths.sort(() => Math.random() - 0.5);
+    render();
+  } catch (err) {
+    document.getElementById('french').innerText = "Vérifiez hadiths.json";
   }
 }
 
-function displayHadith(x, y) {
-  if (hadiths.length === 0) return;
-
+function render() {
+  if (!hadiths.length) return;
   const h = hadiths[currentIndex];
-  const p = palettes[clickCount % palettes.length];
+  
+  // On choisit le duo de couleur en fonction du nombre de clics
+  const currentPalette = palettes[clickCount % palettes.length];
+  
+  // Application des couleurs
+  document.documentElement.style.setProperty('--bg', currentPalette.bg);
+  document.documentElement.style.setProperty('--text-main', currentPalette.text);
 
-  // Colors
-  document.documentElement.style.setProperty('--bg', p.bg);
-  document.documentElement.style.setProperty('--accent', p.accent);
-  document.documentElement.style.setProperty('--text-dark', p.textDark);
-  document.documentElement.style.setProperty('--text-mid', p.textMid);
-
-  // Ripple
-  const rip = document.createElement('div');
-  rip.className = 'ripple';
-  rip.style.left = `${x}px`; rip.style.top = `${y}px`;
-  rip.style.background = p.ripple;
-  document.body.appendChild(rip);
-  rip.addEventListener('animationend', () => rip.remove());
-
-  // Petals (-50% : 4 pétales au lieu de 8-9)
+  // Pétales (4 max)
   for (let i = 0; i < 4; i++) {
     const petal = document.createElement('div');
     petal.className = 'petal';
-    const size = Math.random() * 15 + 5;
-    petal.style.cssText = `
-      width: ${size}px; height: ${size}px;
-      left: ${Math.random() * 100}vw; top: 100vh;
-      background: ${p.accent};
-      animation-duration: ${4 + Math.random() * 2}s;
-    `;
+    petal.style.cssText = `width:12px; height:12px; left:${Math.random()*100}vw; top:100vh; background: var(--text-main); animation-duration:4s;`;
     document.body.appendChild(petal);
     petal.addEventListener('animationend', () => petal.remove());
   }
 
-  // UI Update
   const container = document.getElementById('hadith-container');
   container.style.opacity = 0;
-  container.style.transform = 'translateY(10px)';
-
+  
   setTimeout(() => {
     document.getElementById('arabic').textContent = h.arabic;
     document.getElementById('french').textContent = `« ${h.french} »`;
     document.getElementById('source').innerHTML = `Source: <strong>${h.source}</strong>`;
     document.getElementById('counter').textContent = `Hadith #${clickCount}`;
     container.style.opacity = 1;
-    container.style.transform = 'translateY(0)';
-  }, 300);
+  }, 250);
 }
 
-document.body.addEventListener('click', (e) => {
+document.body.addEventListener('click', () => {
   clickCount++;
   currentIndex = (currentIndex + 1) % hadiths.length;
-  displayHadith(e.clientX, e.clientY);
+  render();
 });
 
-loadHadiths();
+init();
 </script>
 </body>
 </html>
