@@ -14,7 +14,6 @@
       --dark-panel: #111111;
       --transition-speed: 0.4s;
       --progress: 10%;
-      --flashy-color: #FF007A; /* Couleur vive par défaut */
     }
 
     body.dark-mode {
@@ -37,7 +36,7 @@
       transition: background-color var(--transition-speed) ease;
     }
 
-    /* Header */
+    /* Header (Agrandi) */
     .top-bar {
       position: fixed;
       top: 30px;
@@ -45,107 +44,96 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      z-index: 10;
+      z-index: 100;
     }
 
     .theme-switch {
       position: relative;
-      width: 70px;
-      height: 36px;
-      background: rgba(0,0,0,0.1);
+      width: 75px;
+      height: 38px;
+      background: rgba(0,0,0,0.05);
       border-radius: 50px;
       cursor: pointer;
       border: 2px solid var(--text-main);
+      transition: border-color 0.3s;
     }
     .theme-switch .dot {
       position: absolute;
       top: 4px;
       left: 5px;
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       background: var(--text-main);
       border-radius: 50%;
-      transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
-    body.dark-mode .theme-switch .dot { transform: translateX(32px); }
+    body.dark-mode .theme-switch .dot { transform: translateX(35px); }
 
     .counter-badge {
       background-color: var(--dark-panel);
       color: #FFFFFF;
-      padding: 10px 22px;
-      border-radius: 12px;
+      padding: 12px 24px;
+      border-radius: 14px;
       font-family: 'Montserrat', sans-serif;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    /* CONTENEUR FIXE POUR LA BARRE (Ancrage) */
-    .progress-wrapper {
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 50px; /* Espace avant le texte */
+    /* BARRE ANCRÉE (Ne bouge plus) */
+    .progress-fixed-wrapper {
+      position: fixed;
+      top: 140px; /* Position fixe par rapport au haut de l'écran */
+      width: 90%;
+      max-width: 650px;
+      z-index: 50;
     }
 
-    /* Barre de Progression Épaisse "Liquid Glass" */
     .progress-container {
       width: 100%;
-      height: 40px; /* ÉPAISSEUR augmentée */
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      height: 45px; /* Très épaisse */
+      background: rgba(255, 255, 255, 0.25);
       border-radius: 50px;
       overflow: hidden;
+      /* Pas de bordure blanche, juste une ombre adoucie */
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
       position: relative;
-      box-shadow: 
-        inset 0 4px 10px rgba(0,0,0,0.05),
-        0 10px 20px rgba(0,0,0,0.1);
     }
 
     .progress-fill {
       height: 100%;
       width: var(--progress);
-      /* Blanc à gauche, Couleur Flashy à droite */
-      background: linear-gradient(to right, #FFFFFF 0%, var(--flashy-color) 100%);
+      /* Blanc à gauche, couleur du texte à droite */
+      background: linear-gradient(to right, #FFFFFF 0%, var(--text-main) 100%);
       border-radius: 50px;
-      transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
-      box-shadow: 0 0 15px var(--flashy-color);
-    }
-
-    /* Brillance sur la barre (effet verre) */
-    .progress-fill::after {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 50%;
-        background: rgba(255,255,255,0.2);
-        border-radius: 50px 50px 0 0;
+      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s;
+      /* Suppression du glow et du reflet */
     }
 
     .progress-container.complete {
-      animation: finishPulse 0.8s infinite alternate;
+      animation: completeJump 0.5s ease-out;
     }
 
-    @keyframes finishPulse {
-      from { transform: scale(1); box-shadow: 0 0 20px var(--flashy-color); }
-      to { transform: scale(1.02); box-shadow: 0 0 40px var(--flashy-color); }
+    @keyframes completeJump {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
+    /* Zone de texte */
     #hadith-container {
       max-width: 950px;
       z-index: 2;
-      margin-top: 10px; /* Abaisse légèrement le texte */
+      margin-top: 180px; /* Laisse la place pour la barre fixe au dessus */
     }
 
     .arabic { 
       font-family: 'Amiri', serif; 
       font-size: clamp(2rem, 6vw, 3.5rem); 
       color: var(--text-main); 
-      line-height: 1.6; 
+      line-height: 1.7; 
       direction: rtl; 
-      margin-bottom: 45px;
-      transition: opacity 0.3s;
+      margin-bottom: 50px;
+      transition: color 0.4s, opacity 0.3s;
     }
 
     .french { 
@@ -153,18 +141,18 @@
       font-size: clamp(1.4rem, 3.5vw, 1.9rem); 
       color: var(--text-main); 
       line-height: 1.6; 
-      margin-bottom: 45px;
-      transition: opacity 0.3s;
+      margin-bottom: 50px;
+      transition: color 0.4s, opacity 0.3s;
     }
 
     .source { 
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.95rem; 
+      font-size: 1rem; 
       color: var(--text-main);
-      transition: opacity 0.3s;
+      opacity: 0.8;
     }
 
-    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.8rem; color: var(--text-main); }
+    .logo { position: fixed; top: 30px; left: 40px; font-family: 'Amiri', serif; font-size: 2rem; color: var(--text-main); }
 
     .diamond { 
       position: fixed; 
@@ -193,7 +181,7 @@
     <div id="counter" class="counter-badge">Hadith #1</div>
   </div>
 
-  <div class="progress-wrapper">
+  <div class="progress-fixed-wrapper">
     <div class="progress-container" id="progress-container">
         <div class="progress-fill" id="progress-bar"></div>
     </div>
@@ -207,12 +195,12 @@
 
 <script>
 const palettes = [
-  { bg: "#FFC0B3", text: "#522117", flashy: "#FF1493" },
-  { bg: "#E0FFE0", text: "#2F3B16", flashy: "#32CD32" },
-  { bg: "#CFF1FF", text: "#0C232E", flashy: "#00BFFF" },
-  { bg: "#FFF2BF", text: "#3D370B", flashy: "#FFD700" },
-  { bg: "#FFCCF2", text: "#4A0E34", flashy: "#FF00FF" },
-  { bg: "#E2C7FF", text: "#200936", flashy: "#9400D3" }
+  { bg: "#FFC0B3", text: "#522117" },
+  { bg: "#E0FFE0", text: "#2F3B16" },
+  { bg: "#CFF1FF", text: "#0C232E" },
+  { bg: "#FFF2BF", text: "#3D370B" },
+  { bg: "#FFCCF2", text: "#4A0E34" },
+  { bg: "#E2C7FF", text: "#200936" }
 ];
 
 let hadiths = [];
@@ -245,21 +233,18 @@ function updateProgress() {
     const container = document.getElementById('progress-container');
     if (percentage === 100) {
         container.classList.add('complete');
-    } else if (percentage === 10) {
-        container.classList.remove('complete');
+        setTimeout(() => container.classList.remove('complete'), 600);
     }
 }
 
 function render() {
   if (!hadiths.length) return;
   const h = hadiths[currentIndex];
-  
   const cp = palettes[Math.floor(Math.random() * palettes.length)];
 
   document.documentElement.style.setProperty('--bg', cp.bg);
   document.documentElement.style.setProperty('--text-main', cp.text);
   document.documentElement.style.setProperty('--current-pastel', cp.bg);
-  document.documentElement.style.setProperty('--flashy-color', cp.flashy);
 
   // Particules
   for (let i = 0; i < 5; i++) {
