@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L'Essence du Hadith</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playpen+Sans:wght@400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fdf6f0;
+      --accent: #e8a598;
+      --text-dark: #3d2b1f;
+      --text-mid: #7a5c4f;
+      --text-light: #b89a8e;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      background-color: var(--bg);
+      overflow: hidden;
+      cursor: pointer;
+      padding: 40px;
+      transition: background-color 0.8s ease;
+      text-align: center;
+    }
+
+    /* Floating petals (Quantité réduite de 50%) */
+    .petal {
+      position: fixed;
+      border-radius: 50% 10% 50% 10%;
+      opacity: 0;
+      pointer-events: none;
+      animation: floatPetal 5s ease-in forwards;
+    }
+
+    @keyframes floatPetal {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.5); }
+      15%  { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(-110vh) rotate(360deg) scale(1.1); }
+    }
+
+    /* Content Area - NO CARD */
+    #hadith-container {
+      max-width: 850px;
+      z-index: 2;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .ornament {
+      font-size: 1.8rem;
+      color: var(--accent);
+      margin-bottom: 25px;
+      display: block;
+    }
+
+    .arabic {
+      font-family: 'Amiri', serif;
+      font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+      color: var(--text-dark);
+      line-height: 1.8;
+      direction: rtl;
+      margin-bottom: 35px;
+    }
+
+    .divider {
+      width: 100px;
+      height: 1px;
+      margin: 0 auto 35px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .french {
+      font-family: 'Playpen Sans', cursive;
+      font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .source {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .source strong { color: var(--accent); }
+
+    /* UI Elements */
+    .counter { position: fixed; top: 25px; right: 30px; font-size: 0.7rem; color: var(--text-mid); }
+    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--text-light); }
+    
+    .ripple {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: scale(0);
+      animation: rippleAnim 0.7s ease-out forwards;
+      z-index: 1;
+    }
+
+    @keyframes rippleAnim {
+      to { transform: scale(35); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">الحديث</div>
+  <div id="counter" class="counter">Chargement...</div>
+
+  <div id="hadith-container">
+    <span class="ornament">✦</span>
+    <div id="arabic" class="arabic"></div>
+    <div class="divider"></div>
+    <div id="french" class="french"></div>
+    <div id="source" class="source"></div>
+  </div>
+
+<script>
+let hadiths = [];
+let currentIndex = 0;
+let clickCount = 1;
+
+const palettes = [
+  { bg: '#fdf6f0', accent: '#e8a598', textDark: '#3d2b1f', textMid: '#7a5c4f', ripple: 'rgba(232,165,152,0.15)' },
+  { bg: '#f0f6f4', accent: '#7bbdaa', textDark: '#1f3d35', textMid: '#4f7a6e', ripple: 'rgba(123,189,170,0.15)' },
+  { bg: '#f3f0f8', accent: '#a998e0', textDark: '#2b1f3d', textMid: '#5c4f7a', ripple: 'rgba(169,152,224,0.15)' },
+  { bg: '#f7f7f7', accent: '#90a4ae', textDark: '#263238', textMid: '#546e7a', ripple: 'rgba(144,164,174,0.15)' }
+];
+
+// Charger le JSON
+async function loadHadiths() {
+  try {
+    const response = await fetch('hadiths.json');
+    hadiths = await response.json();
+    hadiths.sort(() => Math.random() - 0.5); // Mélanger
+    displayHadith(window.innerWidth / 2, window.innerHeight / 2);
+  } catch (e) {
+    document.getElementById('french').textContent = "Erreur de chargement des hadiths. Vérifiez le fichier JSON.";
+  }
+}
+
+function displayHadith(x, y) {
+  if (hadiths.length === 0) return;
+
+  const h = hadiths[currentIndex];
+  const p = palettes[clickCount % palettes.length];
+
+  // Colors
+  document.documentElement.style.setProperty('--bg', p.bg);
+  document.documentElement.style.setProperty('--accent', p.accent);
+  document.documentElement.style.setProperty('--text-dark', p.textDark);
+  document.documentElement.style.setProperty('--text-mid', p.textMid);
+
+  // Ripple
+  const rip = document.createElement('div');
+  rip.className = 'ripple';
+  rip.style.left = `${x}px`; rip.style.top = `${y}px`;
+  rip.style.background = p.ripple;
+  document.body.appendChild(rip);
+  rip.addEventListener('animationend', () => rip.remove());
+
+  // Petals (-50% : 4 pétales au lieu de 8-9)
+  for (let i = 0; i < 4; i++) {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    const size = Math.random() * 15 + 5;
+    petal.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      left: ${Math.random() * 100}vw; top: 100vh;
+      background: ${p.accent};
+      animation-duration: ${4 + Math.random() * 2}s;
+    `;
+    document.body.appendChild(petal);
+    petal.addEventListener('animationend', () => petal.remove());
+  }
+
+  // UI Update
+  const container = document.getElementById('hadith-container');
+  container.style.opacity = 0;
+  container.style.transform = 'translateY(10px)';
+
+  setTimeout(() => {
+    document.getElementById('arabic').textContent = h.arabic;
+    document.getElementById('french').textContent = `« ${h.french} »`;
+    document.getElementById('source').innerHTML = `Source: <strong>${h.source}</strong>`;
+    document.getElementById('counter').textContent = `Hadith #${clickCount}`;
+    container.style.opacity = 1;
+    container.style.transform = 'translateY(0)';
+  }, 300);
+}
+
+document.body.addEventListener('click', (e) => {
+  clickCount++;
+  currentIndex = (currentIndex + 1) % hadiths.length;
+  displayHadith(e.clientX, e.clientY);
+});
+
+loadHadiths();
+</script>
+</body>
+</html>
