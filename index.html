@@ -4,12 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>L'Essence du Hadith</title>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playpen+Sans:wght@400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playpen+Sans:wght@400&family=Lato:wght@300;400&family=Montserrat:wght@600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Initialisation avec ton premier duo */
       --bg: #FFA896;      
       --text-main: #FF5A33; 
     }
@@ -26,65 +25,63 @@
       cursor: pointer;
       padding: 40px;
       text-align: center;
-      transition: background-color 0.8s ease;
+      transition: background-color 0.4s ease; /* Transition de fond plus rapide */
     }
 
     #hadith-container {
-      max-width: 850px;
+      max-width: 950px; /* Légèrement plus large pour les gros textes */
       z-index: 2;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .ornament { 
       font-size: 2rem; 
       color: var(--text-main); 
-      margin-bottom: 25px; 
+      margin-bottom: 20px; 
       display: block; 
-      transition: color 0.8s ease;
     }
 
     .arabic { 
       font-family: 'Amiri', serif; 
-      font-size: clamp(1.6rem, 4.5vw, 2.6rem); 
+      /* Texte plus gros */
+      font-size: clamp(2rem, 6vw, 3.5rem); 
       color: var(--text-main); 
-      line-height: 1.8; 
+      line-height: 1.6; 
       direction: rtl; 
-      margin-bottom: 35px;
-      transition: color 0.8s ease;
+      margin-bottom: 40px;
     }
 
     .divider { 
-      width: 100px; 
+      width: 120px; 
       height: 2px; 
-      margin: 0 auto 35px; 
+      margin: 0 auto 40px; 
       background: var(--text-main); 
       opacity: 0.4;
-      transition: background 0.8s ease;
     }
 
     .french { 
       font-family: 'Playpen Sans', cursive; 
-      font-size: clamp(1.1rem, 2.8vw, 1.45rem); 
+      /* Texte plus gros */
+      font-size: clamp(1.4rem, 3.5vw, 2rem); 
       color: var(--text-main); 
-      line-height: 1.7; 
-      margin-bottom: 30px;
-      transition: color 0.8s ease;
+      line-height: 1.6; 
+      margin-bottom: 40px;
     }
 
     .source { 
-      font-size: 0.8rem; 
+      /* Utilisation de Montserrat (Proxima Nova style) */
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem; 
       color: var(--text-main); 
       text-transform: uppercase; 
-      letter-spacing: 0.15em; 
-      opacity: 0.7;
-      transition: color 0.8s ease;
+      letter-spacing: 0.1em; 
+      opacity: 0.8;
     }
 
-    .counter { position: fixed; top: 25px; right: 30px; font-size: 0.7rem; color: var(--text-main); transition: color 0.8s ease; }
-    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--text-main); transition: color 0.8s ease; }
+    .counter { position: fixed; top: 25px; right: 30px; font-size: 0.75rem; font-family: 'Montserrat', sans-serif; color: var(--text-main); }
+    .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--text-main); }
 
-    /* Particules (Quantité réduite de 50%) */
-    .petal { position: fixed; border-radius: 50% 10% 50% 10%; opacity: 0; pointer-events: none; animation: floatPetal 5s ease-in forwards; }
+    .petal { position: fixed; border-radius: 50% 10% 50% 10%; opacity: 0; pointer-events: none; animation: floatPetal 4s ease-in forwards; }
     @keyframes floatPetal {
       0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.5); }
       15%  { opacity: 0.5; }
@@ -106,18 +103,14 @@
   </div>
 
 <script>
-/**
- * TES 7 DUOS DE COULEURS
- * Modifie les codes hexadécimaux ici pour changer tes ambiances.
- */
 const palettes = [
-  { bg: "#FFA896", text: "#FF5A33" }, // 1. Corail (Ton original)
-  { bg: "#D4E6B5", text: "#4A5D23" }, // 2. Vert Menthe / Forêt
-  { bg: "#B5D8E6", text: "#1A3A4A" }, // 3. Bleu Ciel / Abysse
-  { bg: "#F3E5AB", text: "#704214" }, // 4. Vanille / Sépia
-  { bg: "#E6B5D8", text: "#6A1B4D" }, // 5. Rose Pastel / Cerise Noire
-  { bg: "#CDB5E6", text: "#3B1A5A" }, // 6. Lavande / Violet Nuit
-  { bg: "#FFD1BA", text: "#A04000" }  // 7. Pêche / Terre de Sienne
+  { bg: "#FFC0B3", text: "#522117" },
+  { bg: "#E0FFE0", text: "#2F3B16" },
+  { bg: "#CFF1FF", text: "#0C232E" },
+  { bg: "#FFF2BF", text: "#3D370B" },
+  { bg: "#FFCCF2", text: "#4A0E34" },
+  { bg: "#E2C7FF", text: "#200936" },
+  { bg: "#FAD1BB", text: "#A04000" }
 ];
 
 let hadiths = [];
@@ -126,16 +119,12 @@ let clickCount = 1;
 
 async function init() {
   try {
-    // Chargement du fichier JSON externe
     const res = await fetch('./hadiths.json');
     hadiths = await res.json();
-    
-    // Mélange aléatoire dès le chargement
     hadiths.sort(() => Math.random() - 0.5);
-    
     render();
   } catch (err) {
-    document.getElementById('french').innerText = "Erreur de chargement. Vérifiez que hadiths.json est bien à la racine.";
+    document.getElementById('french').innerText = "Erreur de chargement du fichier hadiths.json";
   }
 }
 
@@ -144,14 +133,14 @@ function render() {
   
   const h = hadiths[currentIndex];
   
-  // Sélection du duo de couleur parmi les 7 (tourne en boucle)
-  const cp = palettes[clickCount % palettes.length];
+  // Sélection ALÉATOIRE du duo de couleur
+  const randomIndex = Math.floor(Math.random() * palettes.length);
+  const cp = palettes[randomIndex];
   
-  // Appliquer les couleurs CSS
   document.documentElement.style.setProperty('--bg', cp.bg);
   document.documentElement.style.setProperty('--text-main', cp.text);
 
-  // Générer les pétales (4 max pour réduire de 50%)
+  // Pétales
   for (let i = 0; i < 4; i++) {
     const petal = document.createElement('div');
     petal.className = 'petal';
@@ -160,16 +149,16 @@ function render() {
       left: ${Math.random()*100}vw; 
       top: 100vh; 
       background: var(--text-main); 
-      animation-duration: ${3 + Math.random()*2}s;
+      animation-duration: ${2 + Math.random()*2}s;
     `;
     document.body.appendChild(petal);
     petal.addEventListener('animationend', () => petal.remove());
   }
 
-  // Animation de transition du texte
+  // Animation plus rapide (150ms au lieu de 250ms)
   const container = document.getElementById('hadith-container');
   container.style.opacity = 0;
-  container.style.transform = 'translateY(10px)';
+  container.style.transform = 'translateY(8px)';
   
   setTimeout(() => {
     document.getElementById('arabic').textContent = h.arabic;
@@ -178,15 +167,13 @@ function render() {
     document.getElementById('counter').textContent = `Hadith #${clickCount}`;
     container.style.opacity = 1;
     container.style.transform = 'translateY(0)';
-  }, 250);
+  }, 150); 
 }
 
-// Clic n'importe où sur la page
 document.body.addEventListener('click', () => {
   clickCount++;
   currentIndex = (currentIndex + 1) % hadiths.length;
   
-  // Remélanger si on a tout lu
   if (currentIndex === 0) hadiths.sort(() => Math.random() - 0.5);
   
   render();
