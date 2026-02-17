@@ -15,10 +15,8 @@
       --transition-speed: 0.4s;
     }
 
-    /* Mode Sombre */
     body.dark-mode {
       --bg: #111111;
-      /* On inverse : le texte prend la couleur pastel */
       --text-main: var(--current-pastel); 
     }
 
@@ -48,12 +46,12 @@
       z-index: 10;
     }
 
-    /* Interrupteur Jour/Nuit */
+    /* Interrupteur */
     .theme-switch {
       position: relative;
       width: 50px;
       height: 26px;
-      background: rgba(0,0,0,0.1);
+      background: rgba(0,0,0,0.05);
       border-radius: 50px;
       cursor: pointer;
       transition: 0.3s;
@@ -71,6 +69,35 @@
     }
     body.dark-mode .theme-switch .dot { transform: translateX(24px); }
 
+    /* Main en Verre Liquide (Liquid Glass Hand) */
+    .glass-hand {
+      position: absolute;
+      top: 35px;
+      left: -30px;
+      font-size: 1.5rem;
+      pointer-events: none;
+      z-index: 11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 0 10px rgba(255,255,255,0.2);
+      animation: nudge 2s infinite ease-in-out;
+      transition: opacity 0.5s ease;
+    }
+    .glass-hand::after { content: '👆'; filter: drop-shadow(0 0 2px rgba(255,255,255,0.5)); }
+
+    @keyframes nudge {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(10px) scale(0.9); }
+    }
+
     .counter-badge {
       background-color: var(--dark-panel);
       color: #FFFFFF;
@@ -79,14 +106,9 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 0.75rem;
       font-weight: 600;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
-    #hadith-container {
-      max-width: 950px;
-      z-index: 2;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
+    #hadith-container { max-width: 950px; z-index: 2; transition: opacity 0.2s ease; }
 
     .arabic { 
       font-family: 'Amiri', serif; 
@@ -95,7 +117,6 @@
       line-height: 1.6; 
       direction: rtl; 
       margin-bottom: 40px;
-      transition: color var(--transition-speed);
     }
 
     .french { 
@@ -104,28 +125,23 @@
       color: var(--text-main); 
       line-height: 1.6; 
       margin-bottom: 40px;
-      transition: color var(--transition-speed);
     }
 
     .source { 
       font-family: 'Montserrat', sans-serif;
       font-size: 0.95rem; 
       color: var(--text-main); 
-      text-transform: none; /* Enlève les majuscules automatiques */
-      transition: color var(--transition-speed);
     }
 
     .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--text-main); }
 
-    /* Particules Losanges */
+    /* Particules */
     .diamond { 
       position: fixed; 
-      width: 12px; 
-      height: 12px; 
+      width: 12px; height: 12px; 
       background: var(--text-main); 
-      border-radius: 3px; /* Coins arrondis sur le losange */
-      opacity: 0; 
-      pointer-events: none; 
+      border-radius: 3px;
+      opacity: 0; pointer-events: none; 
       animation: floatDiamond 3.5s ease-out forwards; 
     }
     @keyframes floatDiamond {
@@ -140,7 +156,8 @@
   <div class="logo">الحديث</div>
 
   <div class="top-bar" onclick="event.stopPropagation()">
-    <div class="theme-switch" id="theme-toggle" title="Mode Jour/Nuit">
+    <div class="theme-switch" id="theme-toggle">
+      <div id="glass-hand" class="glass-hand"></div>
       <div class="dot"></div>
     </div>
     <div id="counter" class="counter-badge">Hadith #1</div>
@@ -168,10 +185,14 @@ let currentIndex = 0;
 let clickCount = 1;
 let currentPastelColor = palettes[0].bg;
 
-// Toggle Dark Mode
 const themeToggle = document.getElementById('theme-toggle');
+const glassHand = document.getElementById('glass-hand');
+
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
+  // Faire disparaître la main dès le premier clic
+  if(glassHand) glassHand.style.opacity = '0';
+  setTimeout(() => { if(glassHand) glassHand.remove(); }, 500);
 });
 
 async function init() {
@@ -181,24 +202,20 @@ async function init() {
     hadiths.sort(() => Math.random() - 0.5);
     render();
   } catch (err) {
-    document.getElementById('french').innerText = "Erreur de chargement du fichier JSON.";
+    document.getElementById('french').innerText = "Vérifiez hadiths.json.";
   }
 }
 
 function render() {
   if (!hadiths.length) return;
   const h = hadiths[currentIndex];
-  
-  // Couleur aléatoire
   const cp = palettes[Math.floor(Math.random() * palettes.length)];
   currentPastelColor = cp.bg;
 
-  // Appliquer les variables
   document.documentElement.style.setProperty('--bg', cp.bg);
   document.documentElement.style.setProperty('--text-main', cp.text);
   document.documentElement.style.setProperty('--current-pastel', cp.bg);
 
-  // Générer particules avec délais aléatoires
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       const d = document.createElement('div');
@@ -208,7 +225,7 @@ function render() {
       d.style.background = (document.body.classList.contains('dark-mode')) ? cp.bg : cp.text;
       document.body.appendChild(d);
       d.addEventListener('animationend', () => d.remove());
-    }, i * 100); // Décalage de 100ms entre chaque particule
+    }, i * 120);
   }
 
   const container = document.getElementById('hadith-container');
@@ -217,7 +234,6 @@ function render() {
   setTimeout(() => {
     document.getElementById('arabic').textContent = h.arabic;
     document.getElementById('french').textContent = `« ${h.french} »`;
-    // Mise en forme de la source : "Source :" et nom en gras
     document.getElementById('source').innerHTML = `Source : <strong>${h.source}</strong>`;
     document.getElementById('counter').textContent = `Hadith #${clickCount}`;
     container.style.opacity = 1;
@@ -225,9 +241,7 @@ function render() {
 }
 
 document.body.addEventListener('click', (e) => {
-  // Empêche le clic sur l'interrupteur de déclencher un nouveau hadith
   if (e.target.closest('.top-bar')) return;
-
   clickCount++;
   currentIndex = (currentIndex + 1) % hadiths.length;
   if (currentIndex === 0) hadiths.sort(() => Math.random() - 0.5);
