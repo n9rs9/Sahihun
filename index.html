@@ -9,7 +9,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Couleurs par défaut au chargement */
+      /* Initialisation avec ton premier duo */
       --bg: #FFA896;      
       --text-main: #FF5A33; 
     }
@@ -26,7 +26,7 @@
       cursor: pointer;
       padding: 40px;
       text-align: center;
-      transition: background-color 0.8s ease; /* Transition douce pour le changement de fond */
+      transition: background-color 0.8s ease;
     }
 
     #hadith-container {
@@ -36,7 +36,7 @@
     }
 
     .ornament { 
-      font-size: 1.8rem; 
+      font-size: 2rem; 
       color: var(--text-main); 
       margin-bottom: 25px; 
       display: block; 
@@ -58,7 +58,7 @@
       height: 2px; 
       margin: 0 auto 35px; 
       background: var(--text-main); 
-      opacity: 0.5;
+      opacity: 0.4;
       transition: background 0.8s ease;
     }
 
@@ -76,13 +76,14 @@
       color: var(--text-main); 
       text-transform: uppercase; 
       letter-spacing: 0.15em; 
-      opacity: 0.8;
+      opacity: 0.7;
       transition: color 0.8s ease;
     }
 
     .counter { position: fixed; top: 25px; right: 30px; font-size: 0.7rem; color: var(--text-main); transition: color 0.8s ease; }
     .logo { position: fixed; top: 25px; left: 30px; font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--text-main); transition: color 0.8s ease; }
 
+    /* Particules (Quantité réduite de 50%) */
     .petal { position: fixed; border-radius: 50% 10% 50% 10%; opacity: 0; pointer-events: none; animation: floatPetal 5s ease-in forwards; }
     @keyframes floatPetal {
       0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.5); }
@@ -105,15 +106,18 @@
   </div>
 
 <script>
-// ICI TU AJOUTES TES DUOS DE COULEURS À LA MAIN
-// bg = Fond, text = Écritures
+/**
+ * TES 7 DUOS DE COULEURS
+ * Modifie les codes hexadécimaux ici pour changer tes ambiances.
+ */
 const palettes = [
-  { bg: "#FFA896", text: "#FF5A33" }, // Ton duo original
-  { bg: "#D4E6B5", text: "#4A5D23" }, // Vert pastel / Vert forêt
-  { bg: "#B5D8E6", text: "#234A5D" }, // Bleu ciel / Bleu nuit
-  { bg: "#E6B5D8", text: "#5D234A" }, // Rose pastel / Prune
-  { bg: "#F3E5AB", text: "#8B4513" }, // Vanille / Terre d'ombre
-  { bg: "#CDB5E6", text: "#4B235D" }  // Lavande / Violet profond
+  { bg: "#FFA896", text: "#FF5A33" }, // 1. Corail (Ton original)
+  { bg: "#D4E6B5", text: "#4A5D23" }, // 2. Vert Menthe / Forêt
+  { bg: "#B5D8E6", text: "#1A3A4A" }, // 3. Bleu Ciel / Abysse
+  { bg: "#F3E5AB", text: "#704214" }, // 4. Vanille / Sépia
+  { bg: "#E6B5D8", text: "#6A1B4D" }, // 5. Rose Pastel / Cerise Noire
+  { bg: "#CDB5E6", text: "#3B1A5A" }, // 6. Lavande / Violet Nuit
+  { bg: "#FFD1BA", text: "#A04000" }  // 7. Pêche / Terre de Sienne
 ];
 
 let hadiths = [];
@@ -122,37 +126,50 @@ let clickCount = 1;
 
 async function init() {
   try {
+    // Chargement du fichier JSON externe
     const res = await fetch('./hadiths.json');
     hadiths = await res.json();
+    
+    // Mélange aléatoire dès le chargement
     hadiths.sort(() => Math.random() - 0.5);
+    
     render();
   } catch (err) {
-    document.getElementById('french').innerText = "Vérifiez hadiths.json";
+    document.getElementById('french').innerText = "Erreur de chargement. Vérifiez que hadiths.json est bien à la racine.";
   }
 }
 
 function render() {
   if (!hadiths.length) return;
+  
   const h = hadiths[currentIndex];
   
-  // On choisit le duo de couleur en fonction du nombre de clics
-  const currentPalette = palettes[clickCount % palettes.length];
+  // Sélection du duo de couleur parmi les 7 (tourne en boucle)
+  const cp = palettes[clickCount % palettes.length];
   
-  // Application des couleurs
-  document.documentElement.style.setProperty('--bg', currentPalette.bg);
-  document.documentElement.style.setProperty('--text-main', currentPalette.text);
+  // Appliquer les couleurs CSS
+  document.documentElement.style.setProperty('--bg', cp.bg);
+  document.documentElement.style.setProperty('--text-main', cp.text);
 
-  // Pétales (4 max)
+  // Générer les pétales (4 max pour réduire de 50%)
   for (let i = 0; i < 4; i++) {
     const petal = document.createElement('div');
     petal.className = 'petal';
-    petal.style.cssText = `width:12px; height:12px; left:${Math.random()*100}vw; top:100vh; background: var(--text-main); animation-duration:4s;`;
+    petal.style.cssText = `
+      width: 12px; height: 12px; 
+      left: ${Math.random()*100}vw; 
+      top: 100vh; 
+      background: var(--text-main); 
+      animation-duration: ${3 + Math.random()*2}s;
+    `;
     document.body.appendChild(petal);
     petal.addEventListener('animationend', () => petal.remove());
   }
 
+  // Animation de transition du texte
   const container = document.getElementById('hadith-container');
   container.style.opacity = 0;
+  container.style.transform = 'translateY(10px)';
   
   setTimeout(() => {
     document.getElementById('arabic').textContent = h.arabic;
@@ -160,12 +177,18 @@ function render() {
     document.getElementById('source').innerHTML = `Source: <strong>${h.source}</strong>`;
     document.getElementById('counter').textContent = `Hadith #${clickCount}`;
     container.style.opacity = 1;
+    container.style.transform = 'translateY(0)';
   }, 250);
 }
 
+// Clic n'importe où sur la page
 document.body.addEventListener('click', () => {
   clickCount++;
   currentIndex = (currentIndex + 1) % hadiths.length;
+  
+  // Remélanger si on a tout lu
+  if (currentIndex === 0) hadiths.sort(() => Math.random() - 0.5);
+  
   render();
 });
 
