@@ -36,7 +36,7 @@
       transition: background-color var(--transition-speed) ease;
     }
 
-    /* Header (Agrandi) */
+    /* Header */
     .top-bar {
       position: fixed;
       top: 30px;
@@ -80,34 +80,52 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    /* BARRE ANCRÉE (Ne bouge plus) */
+    /* BARRE DE PROGRESSION STYLE IMAGE */
     .progress-fixed-wrapper {
       position: fixed;
-      top: 140px; /* Position fixe par rapport au haut de l'écran */
+      top: 140px;
       width: 90%;
-      max-width: 650px;
+      max-width: 600px;
       z-index: 50;
     }
 
     .progress-container {
       width: 100%;
-      height: 45px; /* Très épaisse */
-      background: rgba(255, 255, 255, 0.25);
+      height: 38px;
+      background: #2c2f33; /* Fond gris sombre comme l'image */
       border-radius: 50px;
-      overflow: hidden;
-      /* Pas de bordure blanche, juste une ombre adoucie */
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+      padding: 5px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
       position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
     }
 
     .progress-fill {
       height: 100%;
       width: var(--progress);
-      /* Blanc à gauche, couleur du texte à droite */
-      background: linear-gradient(to right, #FFFFFF 0%, var(--text-main) 100%);
+      background-color: var(--text-main); /* Couleur du texte */
       border-radius: 50px;
-      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s;
-      /* Suppression du glow et du reflet */
+      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+      /* Dégradé pour l'effet de dôme/volume */
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 100%);
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    }
+
+    /* Le reflet blanc brillant sur la barre */
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      right: 12px;
+      width: 25%;
+      max-width: 50px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 10px;
+      filter: blur(0.5px);
     }
 
     .progress-container.complete {
@@ -123,7 +141,7 @@
     #hadith-container {
       max-width: 950px;
       z-index: 2;
-      margin-top: 180px; /* Laisse la place pour la barre fixe au dessus */
+      margin-top: 200px;
     }
 
     .arabic { 
