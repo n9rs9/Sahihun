@@ -17,7 +17,6 @@
       --progress: 10%;
     }
 
-    /* Inversion des couleurs en mode nuit pour le compteur */
     body.dark-mode {
       --bg: #111111;
       --text-main: var(--current-pastel); 
@@ -73,31 +72,24 @@
     }
     body.dark-mode .theme-switch .dot { transform: translateX(35px); }
 
-    /* Compteur Hadith avec Police Modak et Flottement */
+    /* Compteur Hadith - Style mixte */
     .counter-badge {
       background-color: var(--dark-panel);
       color: var(--panel-text);
-      padding: 8px 20px;
+      padding: 10px 24px;
       border-radius: 14px;
-      font-family: 'Modak', cursive;
-      font-size: 1.3rem;
-      font-weight: 400;
+      font-family: 'Montserrat', sans-serif; /* Police standard pour "Hadith #" */
+      font-size: 1rem;
+      font-weight: 700;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       transition: background-color 0.4s, color 0.4s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
-    /* Effet de flottement sur le numéro */
     #counter-number {
-      display: inline-block;
-      animation: floatNum 3s ease-in-out infinite;
-    }
-
-    @keyframes floatNum {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      font-family: 'Modak', cursive; /* Uniquement pour le nombre */
+      font-size: 1.4rem;
+      vertical-align: middle;
+      margin-left: 2px;
     }
 
     /* BARRE DE PROGRESSION STYLE IMAGE */
@@ -146,11 +138,11 @@
       filter: blur(0.5px);
     }
 
-    /* Zone de texte - Remontée légèrement */
+    /* Zone de texte */
     #hadith-container {
       max-width: 950px;
       z-index: 2;
-      margin-top: 130px; /* Réduit pour remonter les textes sans bouger la barre */
+      margin-top: 130px; 
     }
 
     .arabic { 
@@ -159,7 +151,7 @@
       color: var(--text-main); 
       line-height: 1.7; 
       direction: rtl; 
-      margin-bottom: 30px; /* Réduit */
+      margin-bottom: 30px;
       transition: color 0.4s, opacity 0.3s;
     }
 
@@ -168,7 +160,7 @@
       font-size: clamp(1.3rem, 3vw, 1.8rem); 
       color: var(--text-main); 
       line-height: 1.5; 
-      margin-bottom: 30px; /* Réduit */
+      margin-bottom: 30px;
       transition: color 0.4s, opacity 0.3s;
     }
 
@@ -205,7 +197,7 @@
     <div class="theme-switch" id="theme-toggle" title="Mode Jour/Nuit">
       <div class="dot"></div>
     </div>
-    <div class="counter-badge">Hadith <span id="counter-number">#1</span></div>
+    <div class="counter-badge">Hadith #<span id="counter-number">1</span></div>
   </div>
 
   <div class="progress-fixed-wrapper">
@@ -255,6 +247,7 @@ function updateProgress() {
     let currentStep = ((clickCount - 1) % 10) + 1;
     let percentage = currentStep * 10;
     document.documentElement.style.setProperty('--progress', `${percentage}%`);
+    // L'animation "completeJump" a été retirée du CSS et du JS
 }
 
 function render() {
@@ -266,7 +259,6 @@ function render() {
   document.documentElement.style.setProperty('--text-main', cp.text);
   document.documentElement.style.setProperty('--current-pastel', cp.bg);
 
-  // Particules
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       const d = document.createElement('div');
@@ -286,7 +278,7 @@ function render() {
     document.getElementById('arabic').textContent = h.arabic;
     document.getElementById('french').textContent = `« ${h.french} »`;
     document.getElementById('source').innerHTML = `Source : <strong>${h.source}</strong>`;
-    document.getElementById('counter-number').textContent = `#${clickCount}`;
+    document.getElementById('counter-number').textContent = clickCount;
     elements.forEach(id => document.getElementById(id).style.opacity = 1);
     updateProgress();
   }, 200);
